@@ -1,0 +1,105 @@
+baseURL = "https://victorsalles.com/"
+languageCode = "en-us"
+title = "Victor Salles"
+theme = "PaperMod"
+paginate = 5
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[params]
+  env = "production"
+  author = "Victor Salles"
+  description = "Backend Dev & AI Builder — building tools for developers in the age of AI."
+  defaultTheme = "dark"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = false
+  ShowRssButtonInSectionTermList = true
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  hideSummary = false
+
+  [params.homeInfoParams]
+    Title = "Hey, I'm Victor."
+    Content = """Backend developer and AI builder based in Rio de Janeiro. \
+I build tools that make developers more productive — from offline voice automation \
+systems to structured AI agent teams.\n\n\
+→ [See what I'm building](/projects/) · [Read the blog](/posts/)"""
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/victor-salles"
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/victor-freitas-salles-rodrigues/"
+  [[params.socialIcons]]
+    name = "rss"
+    url = "/index.xml"
+
+  [params.profileMode]
+    enabled = false
+
+  [params.cover]
+    hidden = true
+    hiddenInList = true
+    hiddenInSingle = true
+
+  [params.editPost]
+    disabled = true
+
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 0
+    keys = ["title", "permalink", "summary", "content"]
+
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 1
+  [[menu.main]]
+    identifier = "projects"
+    name = "Projects"
+    url = "/projects/"
+    weight = 2
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/posts/"
+    weight = 3
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact"
+    url = "/contact/"
+    weight = 4
+  [[menu.main]]
+    identifier = "search"
+    name = "Search"
+    url = "/search/"
+    weight = 5
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    style = "monokai"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
