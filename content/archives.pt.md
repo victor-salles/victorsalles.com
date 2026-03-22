@@ -1,6 +1,6 @@
 ---
 title: "Arquivo"
 layout: "archives"
-url: "/pt/archives/"
+url: "/archives/"
 summary: "Todos os posts"
 ---

@@ -1,7 +1,7 @@
 baseURL = "https://victorsalles.com/"
 title = "Victor Salles"
 theme = "PaperMod"
-defaultContentLanguage = "en"
+defaultContentLanguage = "pt"
 defaultContentLanguageInSubdir = false
 
 [pagination]
@@ -18,51 +18,10 @@ buildExpired = false
 
 [languages]
 
-  [languages.en]
-    languageCode = "en-us"
-    languageName = "EN"
-    weight = 1
-    title = "Victor Salles"
-
-    [languages.en.params]
-      description = "Backend Dev & AI Builder — building tools for developers in the age of AI."
-      [languages.en.params.homeInfoParams]
-        Title = "Hey, I'm Victor."
-        Content = """Backend developer and AI builder based in Rio de Janeiro. \
-I build tools that make developers more productive — from offline voice automation \
-systems to structured AI agent teams.\n\n\
-→ [See what I'm building](/projects/) · [Read the blog](/posts/)"""
-
-    [[languages.en.menu.main]]
-      identifier = "about"
-      name = "About"
-      url = "/about/"
-      weight = 1
-    [[languages.en.menu.main]]
-      identifier = "projects"
-      name = "Projects"
-      url = "/projects/"
-      weight = 2
-    [[languages.en.menu.main]]
-      identifier = "blog"
-      name = "Blog"
-      url = "/posts/"
-      weight = 3
-    [[languages.en.menu.main]]
-      identifier = "contact"
-      name = "Contact"
-      url = "/contact/"
-      weight = 4
-    [[languages.en.menu.main]]
-      identifier = "search"
-      name = "Search"
-      url = "/search/"
-      weight = 5
-
   [languages.pt]
     languageCode = "pt-br"
     languageName = "PT"
-    weight = 2
+    weight = 1
     title = "Victor Salles"
 
     [languages.pt.params]
@@ -72,32 +31,73 @@ systems to structured AI agent teams.\n\n\
         Content = """Desenvolvedor backend e AI builder baseado no Rio de Janeiro. \
 Crio ferramentas que tornam desenvolvedores mais produtivos — de sistemas de automação \
 de voz offline a times estruturados de agentes de IA.\n\n\
-→ [Veja o que estou construindo](/pt/projects/) · [Leia o blog](/pt/posts/)"""
+→ [Veja o que estou construindo](/projects/) · [Leia o blog](/posts/)"""
 
     [[languages.pt.menu.main]]
       identifier = "about"
       name = "Sobre"
-      url = "/pt/about/"
+      url = "/about/"
       weight = 1
     [[languages.pt.menu.main]]
       identifier = "projects"
       name = "Projetos"
-      url = "/pt/projects/"
+      url = "/projects/"
       weight = 2
     [[languages.pt.menu.main]]
       identifier = "blog"
       name = "Blog"
-      url = "/pt/posts/"
+      url = "/posts/"
       weight = 3
     [[languages.pt.menu.main]]
       identifier = "contact"
       name = "Contato"
-      url = "/pt/contact/"
+      url = "/contact/"
       weight = 4
     [[languages.pt.menu.main]]
       identifier = "search"
       name = "Busca"
-      url = "/pt/search/"
+      url = "/search/"
+      weight = 5
+
+  [languages.en]
+    languageCode = "en-us"
+    languageName = "EN"
+    weight = 2
+    title = "Victor Salles"
+
+    [languages.en.params]
+      description = "Backend Dev & AI Builder — building tools for developers in the age of AI."
+      [languages.en.params.homeInfoParams]
+        Title = "Hey, I'm Victor."
+        Content = """Backend developer and AI builder based in Rio de Janeiro. \
+I build tools that make developers more productive — from offline voice automation \
+systems to structured AI agent teams.\n\n\
+→ [See what I'm building](/en/projects/) · [Read the blog](/en/posts/)"""
+
+    [[languages.en.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/en/about/"
+      weight = 1
+    [[languages.en.menu.main]]
+      identifier = "projects"
+      name = "Projects"
+      url = "/en/projects/"
+      weight = 2
+    [[languages.en.menu.main]]
+      identifier = "blog"
+      name = "Blog"
+      url = "/en/posts/"
+      weight = 3
+    [[languages.en.menu.main]]
+      identifier = "contact"
+      name = "Contact"
+      url = "/en/contact/"
+      weight = 4
+    [[languages.en.menu.main]]
+      identifier = "search"
+      name = "Search"
+      url = "/en/search/"
       weight = 5
 
 # ──────────────────────────────────────
