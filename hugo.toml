@@ -1,7 +1,9 @@
 baseURL = "https://victorsalles.com/"
-languageCode = "en-us"
 title = "Victor Salles"
 theme = "PaperMod"
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
 [pagination]
   pagerSize = 5
 
@@ -10,11 +12,103 @@ buildDrafts = false
 buildFuture = false
 buildExpired = false
 
+# ──────────────────────────────────────
+# Languages
+# ──────────────────────────────────────
+
+[languages]
+
+  [languages.en]
+    languageCode = "en-us"
+    languageName = "EN"
+    weight = 1
+    title = "Victor Salles"
+
+    [languages.en.params]
+      description = "Backend Dev & AI Builder — building tools for developers in the age of AI."
+      [languages.en.params.homeInfoParams]
+        Title = "Hey, I'm Victor."
+        Content = """Backend developer and AI builder based in Rio de Janeiro. \
+I build tools that make developers more productive — from offline voice automation \
+systems to structured AI agent teams.\n\n\
+→ [See what I'm building](/projects/) · [Read the blog](/posts/)"""
+
+    [[languages.en.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about/"
+      weight = 1
+    [[languages.en.menu.main]]
+      identifier = "projects"
+      name = "Projects"
+      url = "/projects/"
+      weight = 2
+    [[languages.en.menu.main]]
+      identifier = "blog"
+      name = "Blog"
+      url = "/posts/"
+      weight = 3
+    [[languages.en.menu.main]]
+      identifier = "contact"
+      name = "Contact"
+      url = "/contact/"
+      weight = 4
+    [[languages.en.menu.main]]
+      identifier = "search"
+      name = "Search"
+      url = "/search/"
+      weight = 5
+
+  [languages.pt]
+    languageCode = "pt-br"
+    languageName = "PT"
+    weight = 2
+    title = "Victor Salles"
+
+    [languages.pt.params]
+      description = "Dev Backend & AI Builder — criando ferramentas para desenvolvedores na era da IA."
+      [languages.pt.params.homeInfoParams]
+        Title = "Oi, eu sou o Victor."
+        Content = """Desenvolvedor backend e AI builder baseado no Rio de Janeiro. \
+Crio ferramentas que tornam desenvolvedores mais produtivos — de sistemas de automação \
+de voz offline a times estruturados de agentes de IA.\n\n\
+→ [Veja o que estou construindo](/pt/projects/) · [Leia o blog](/pt/posts/)"""
+
+    [[languages.pt.menu.main]]
+      identifier = "about"
+      name = "Sobre"
+      url = "/pt/about/"
+      weight = 1
+    [[languages.pt.menu.main]]
+      identifier = "projects"
+      name = "Projetos"
+      url = "/pt/projects/"
+      weight = 2
+    [[languages.pt.menu.main]]
+      identifier = "blog"
+      name = "Blog"
+      url = "/pt/posts/"
+      weight = 3
+    [[languages.pt.menu.main]]
+      identifier = "contact"
+      name = "Contato"
+      url = "/pt/contact/"
+      weight = 4
+    [[languages.pt.menu.main]]
+      identifier = "search"
+      name = "Busca"
+      url = "/pt/search/"
+      weight = 5
+
+# ──────────────────────────────────────
+# Shared params
+# ──────────────────────────────────────
+
 [params]
   env = "production"
   author = "Victor Salles"
-  description = "Backend Dev & AI Builder — building tools for developers in the age of AI."
   defaultTheme = "dark"
+  displayFullLangName = false
   ShowReadingTime = true
   ShowShareButtons = false
   ShowPostNavLinks = true
@@ -25,13 +119,6 @@ buildExpired = false
   disableSpecial1stPost = false
   disableScrollToTop = false
   hideSummary = false
-
-  [params.homeInfoParams]
-    Title = "Hey, I'm Victor."
-    Content = """Backend developer and AI builder based in Rio de Janeiro. \
-I build tools that make developers more productive — from offline voice automation \
-systems to structured AI agent teams.\n\n\
-→ [See what I'm building](/projects/) · [Read the blog](/posts/)"""
 
   [[params.socialIcons]]
     name = "github"
@@ -63,32 +150,9 @@ systems to structured AI agent teams.\n\n\
     minMatchCharLength = 0
     keys = ["title", "permalink", "summary", "content"]
 
-[menu]
-  [[menu.main]]
-    identifier = "about"
-    name = "About"
-    url = "/about/"
-    weight = 1
-  [[menu.main]]
-    identifier = "projects"
-    name = "Projects"
-    url = "/projects/"
-    weight = 2
-  [[menu.main]]
-    identifier = "blog"
-    name = "Blog"
-    url = "/posts/"
-    weight = 3
-  [[menu.main]]
-    identifier = "contact"
-    name = "Contact"
-    url = "/contact/"
-    weight = 4
-  [[menu.main]]
-    identifier = "search"
-    name = "Search"
-    url = "/search/"
-    weight = 5
+# ──────────────────────────────────────
+# Markup & outputs
+# ──────────────────────────────────────
 
 [markup]
   [markup.highlight]
