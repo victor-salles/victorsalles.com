@@ -107,6 +107,7 @@ systems to structured AI agent teams.\n\n\
 [params]
   env = "production"
   author = "Victor Salles"
+  mainSections = ["projects", "posts"]
   defaultTheme = "dark"
   displayFullLangName = false
   ShowReadingTime = true
