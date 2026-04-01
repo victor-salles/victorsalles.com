@@ -1,58 +1,58 @@
 ---
-title: "Building an Offline Voice System for macOS"
+title: "Construindo um Sistema de Voz Offline para macOS"
 date: 2026-03-22
-tags: ["python", "macos", "ai", "tts", "stt", "kokoro", "whisper"]
-draft: true
-summary: "How I built a fully offline text-to-speech and speech-to-text system for macOS using Kokoro-82M and mlx-whisper — no cloud APIs, streaming audio in under a second."
+tags: ["python", "macos", "ia", "tts", "stt", "kokoro", "whisper"]
+draft: false
+summary: "Como construí um sistema totalmente offline de text-to-speech e speech-to-text para macOS usando Kokoro-82M e mlx-whisper — sem APIs na nuvem, áudio streaming em menos de um segundo."
 ---
 
-I spend a lot of time reading text on screen. Documentation, code reviews, long Slack threads, articles. At some point I started wondering: what if my Mac could just read this to me?
+Passo muito tempo lendo texto na tela. Documentação, code reviews, threads longas no Slack, artigos. Em algum momento comecei a pensar: e se meu Mac pudesse simplesmente ler isso pra mim?
 
-There are plenty of TTS solutions out there. Most of them are cloud-based, which means latency, subscriptions, and sending your text to someone else's server. I wanted something that runs locally, starts fast, sounds good, and works in both English and Portuguese.
+Existem várias soluções de TTS por aí. A maioria é baseada na nuvem, o que significa latência, assinaturas e enviar seu texto para o servidor de outra pessoa. Eu queria algo que rodasse localmente, começasse rápido, soasse bem e funcionasse em inglês e português.
 
-So I built one.
+Então eu construí um.
 
-## The stack
+## A stack
 
-The TTS engine is **Kokoro-82M**, an 82-million parameter model that runs on CPU on Apple Silicon. It's served locally via Kokoro-FastAPI on port 8880, auto-started as a macOS LaunchAgent so it's always ready when I need it.
+O motor TTS é o **Kokoro-82M**, um modelo de 82 milhões de parâmetros que roda na CPU no Apple Silicon. É servido localmente via Kokoro-FastAPI na porta 8880, iniciado automaticamente como um macOS LaunchAgent para estar sempre pronto quando eu preciso.
 
-For speech-to-text, I'm using **mlx-whisper** (the Whisper-turbo model optimized for Apple Silicon). Right-click an audio file and it gets transcribed locally.
+Para speech-to-text, estou usando **mlx-whisper** (o modelo Whisper-turbo otimizado para Apple Silicon). Clique com botão direito em um arquivo de áudio e ele é transcrito localmente.
 
-The glue between them is a combination of shell scripts, Python processing, and Hammerspoon for the macOS integration layer.
+A cola entre eles é uma combinação de shell scripts, processamento Python e Hammerspoon para a camada de integração macOS.
 
-## How it works
+## Como funciona
 
-Press `⌥S` with text selected (or in clipboard). Here's what happens:
+Pressione `⌥S` com texto selecionado (ou no clipboard). Eis o que acontece:
 
-1. **Text capture** — Hammerspoon grabs the selected text or falls back to clipboard
-2. **Language detection** — A Python script scores the text for Portuguese markers (ã, õ, ç, accent characters) versus English word frequency. Short text without clear markers defaults to English.
-3. **Text cleaning** — A processing pipeline strips markdown formatting, removes code blocks, expands file extensions into speakable form (`.py` becomes "dot P Y"), and humanizes identifiers (`HTTP_CODE` becomes "H T T P Code")
-4. **Streaming synthesis** — A `curl` call to the local Kokoro API streams mp3 directly to `ffplay`. No temp files. Audio starts playing in under a second while the rest is still being synthesized.
+1. **Captura de texto** — Hammerspoon pega o texto selecionado ou faz fallback para o clipboard
+2. **Detecção de idioma** — Um script Python pontua o texto por marcadores de português (ã, õ, ç, caracteres acentuados) versus frequência de palavras em inglês. Texto curto sem marcadores claros assume inglês como padrão.
+3. **Limpeza de texto** — Um pipeline de processamento remove formatação markdown, remove blocos de código, expande extensões de arquivo para forma falável (`.py` vira "dot P Y"), e humaniza identificadores (`HTTP_CODE` vira "H T T P Code")
+4. **Síntese em streaming** — Uma chamada `curl` para a API local do Kokoro faz streaming de mp3 direto para o `ffplay`. Sem arquivos temporários. O áudio começa a tocar em menos de um segundo enquanto o resto ainda está sendo sintetizado.
 
-## The text cleaning problem
+## O problema da limpeza de texto
 
-This turned out to be the most interesting engineering challenge. Developer-facing text is full of things that sound terrible when read literally: markdown headers, inline code backticks, URLs, emoji, file paths. The cleaning pipeline handles each of these in sequence.
+Este acabou sendo o desafio de engenharia mais interessante. Texto voltado para desenvolvedores é cheio de coisas que soam terríveis quando lidas literalmente: headers markdown, backticks de código inline, URLs, emoji, caminhos de arquivo. O pipeline de limpeza trata cada um destes em sequência.
 
-The trickiest part was file extensions. You can't just strip them — `.py` in a sentence like "rename the .py file" carries meaning. So instead of removing them, the pipeline expands them: `.py` becomes "dot P Y", `.json` becomes "dot J S O N". Same for identifiers: `HTTP_CODE` becomes "H T T P Code" because hearing "HTTP underscore CODE" as a single garbled word is useless.
+A parte mais complicada foram extensões de arquivo. Você não pode simplesmente removê-las — `.py` em uma frase como "renomeie o arquivo .py" carrega significado. Então em vez de removê-las, o pipeline as expande: `.py` vira "dot P Y", `.json` vira "dot J S O N". O mesmo para identificadores: `HTTP_CODE` vira "H T T P Code" porque ouvir "HTTP underline CODE" como uma palavra embolada é inútil.
 
-I wrote 2,375 lines of tests across 17 test files to cover the edge cases in this pipeline. Language detection alone has tests for accent characters, Portuguese-specific words, English word scoring, and ambiguous mixed-language text.
+Escrevi 2.375 linhas de testes em 17 arquivos de teste para cobrir os edge cases nesse pipeline. Detecção de idioma sozinha tem testes para caracteres acentuados, palavras específicas do português, pontuação de palavras em inglês e texto ambíguo de idioma misto.
 
-## The queue system
+## O sistema de fila
 
-One feature I didn't plan but needed immediately: queue management. When you press `⌥S` while audio is already playing, the new text gets queued and plays automatically when the current item finishes. The Hammerspoon menu bar shows what's playing, what's queued, and a history of recent items you can click to replay.
+Uma funcionalidade que não planejei mas precisei imediatamente: gerenciamento de fila. Quando você pressiona `⌥S` enquanto áudio já está tocando, o novo texto entra na fila e toca automaticamente quando o item atual termina. A barra de menu do Hammerspoon mostra o que está tocando, o que está na fila, e um histórico de itens recentes que você pode clicar para reproduzir novamente.
 
-The menu bar indicator also shows server status — green when Kokoro is running and healthy, blue when processing, red when the server is down. Health checks run every 30 seconds.
+O indicador da barra de menu também mostra o status do servidor — verde quando o Kokoro está rodando e saudável, azul quando processando, vermelho quando o servidor está fora. Health checks rodam a cada 30 segundos.
 
-## What I learned
+## O que aprendi
 
-**Local models are good enough for productivity tools.** Kokoro-82M doesn't sound like a human, but it sounds good enough that I can listen to documentation while doing something else. The bar for "useful" is lower than the bar for "impressive."
+**Modelos locais são bons o suficiente para ferramentas de produtividade.** Kokoro-82M não soa como um humano, mas soa bem o suficiente para eu ouvir documentação enquanto faço outra coisa. A barra para "útil" é mais baixa que a barra para "impressionante."
 
-**Bilingual support is harder than it looks.** Language detection is easy when you have a full paragraph with clear markers. It's hard when you have a three-word heading that could be either language. The heuristic approach (character scoring + word frequency) works well enough for my use case but isn't perfect.
+**Suporte bilíngue é mais difícil do que parece.** Detecção de idioma é fácil quando você tem um parágrafo completo com marcadores claros. É difícil quando você tem um heading de três palavras que poderia ser qualquer idioma. A abordagem heurística (pontuação de caracteres + frequência de palavras) funciona bem o suficiente para meu caso de uso mas não é perfeita.
 
-**Streaming changes the UX completely.** The difference between "wait 3 seconds for audio" and "audio starts in under a second" is the difference between a tool you use and a tool you forget about.
+**Streaming muda a UX completamente.** A diferença entre "espere 3 segundos pelo áudio" e "áudio começa em menos de um segundo" é a diferença entre uma ferramenta que você usa e uma ferramenta que você esquece.
 
-## What's next
+## Próximos passos
 
-The backlog includes a Claude Code post-response hook (auto-speak AI responses), a Chrome extension for reading web pages, and eventually a full voice assistant loop: STT → LLM → OS execution → TTS.
+O backlog inclui um hook pós-resposta do Claude Code (auto-falar respostas de IA), uma extensão Chrome para ler páginas web, e eventualmente um loop completo de assistente de voz: STT → LLM → execução no SO → TTS.
 
-The code is on [GitHub](https://github.com/victor-salles/voice-automation). If you're building something similar or want to contribute, open an issue.
+O código está no [GitHub](https://github.com/victor-salles/voice-automation). Se você está construindo algo similar ou quer contribuir, abra uma issue.
